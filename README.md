@@ -6,10 +6,10 @@ for the EZO-CO2 sensor.
 
 ## Install
  * activate an environment
- * ''pip install smbus3''
- * ''git clone https://github.com/coburnw/python-ezo-i2c.git''
- * ''cd python-ezo-i2c''
- * ''pip install -e .''
+ * ``pip install smbus3``
+ * ``git clone https://github.com/coburnw/python-ezo-i2c.git``
+ * ``cd python-ezo-i2c``
+ * ``pip install -e .``
 
 If pip complains about installing editable, you may need to upgrade your pip.
 
@@ -18,7 +18,7 @@ If pip complains about installing editable, you may need to upgrade your pip.
 import time
 import smbus3 as smbus
 
-import ezo_co2 as atlas
+import ezo_i2c as atlas
    
 with smbus.SMBus(1) as bus:
      co2 = atlas.EzoCO2(bus, 0x69)
