@@ -1,0 +1,8 @@
+# emacs stuff
+*~
+*#
+
+# python stuff
+__pycache__
+*.pyi
+*.egg-info
