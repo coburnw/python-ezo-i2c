@@ -29,9 +29,11 @@ class EzoCO2(ezo.EzoI2C):
         if not self._reading_format:
             self.load_reading_format()
 
-        if self._reading_format:
-            self.load_reading()
-            
+        if not self._reading_format:
+            self._reading = None
+        else:
+            self._reading = self.get_reading()
+
         return
 
     def load_reading_format(self):
@@ -48,30 +50,22 @@ class EzoCO2(ezo.EzoI2C):
 
         return
 
-    def load_reading(self):
-        reading = self.get_reading()
-
-        try:
-            i = self._reading_format.index('T')
-            self._degc = reading[i]
-        except ValueError:
-            self._degc = None
-        except IndexError:
-            self._degc = None
-            
-        try:
-            i = self._reading_format.index('PPM')
-            self._ppm = reading[i]
-        except ValueError:
-            self._ppm = None
-        except IndexError:
-            self._ppm = None
-        
-        return
-
     @property
     def value(self):
-        return self._ppm
+        if not self._reading_format:
+            result = None
+        elif not self._reading:
+            result = None
+        else:
+            try:
+                i = self._reading_format.index('PPM')
+                result = float(self._reading[i])
+            except ValueError:
+                result = None
+            except IndexError:
+                result = None
+        
+        return result
 
     @property
     def units(self):
@@ -79,7 +73,20 @@ class EzoCO2(ezo.EzoI2C):
     
     @property
     def degc(self):
-        return self._degc
+        if not self._reading_format:
+            result = None
+        elif not self._reading:
+            result = None
+        else:
+            try:
+                i = self._reading_format.index('T')
+                result = float(self._reading[i])
+            except ValueError:
+                result = None
+            except IndexError:
+                result = None
+            
+        return result
 
     def temperature_enable(self, state=True):
         self._reading_format = None
@@ -107,12 +114,11 @@ if __name__ == '__main__':
 
         if len(co2.name) == 0:
             print('setting name')
-            
-        co2.name = 'hello kitty'
+            co2.name = 'test_name'
         
         while True:
             co2.update()
             print('{}{}, {}degC, {}volts'.format(co2.value, co2.units, co2.degc, co2.voltage))
 
-            time.sleep(1)
+            time.sleep(5)
             
