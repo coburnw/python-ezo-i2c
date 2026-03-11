@@ -167,11 +167,11 @@ class EzoI2C():
     @property
     def name(self):
         if self._name is None:
-            name = self.get_name()
-            self._name = name[0]
+            self._name = self.get_name()
+            if self._name is not None:
+                self._name = self._name[0]
                 
-        name = self._name
-        
+        name = self._name        
         if name is None:
             name = ''
             
