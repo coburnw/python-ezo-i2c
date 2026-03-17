@@ -58,6 +58,18 @@ class EzoI2C():
         
         return response
 
+    def set_address(self, address):
+        address = int(address)
+        
+        if address > 0 and address < 128:
+            cmd = 'I2C,{}'.format(address)
+            self._write(cmd)
+            self.dev_addr = address
+            
+            time.sleep(0.3)
+        
+        return self.dev_addr
+            
     def set_find(self):
         response = self._write('find')
         time.sleep(0.3)
