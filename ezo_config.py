@@ -1,3 +1,4 @@
+import sys
 import time
 import cmd
 import subprocess
@@ -5,8 +6,6 @@ import subprocess
 import smbus3 as smbus
 import ezo_i2c as atlas
 
-# specify bus and our device address
-i2c_bus_number = 1
 
 class Shell(cmd.Cmd):
     intro = 'phorp scanner'
@@ -43,7 +42,7 @@ class Shell(cmd.Cmd):
 
     def do_scan(self, arg):
         ''' scan i2c bus for devices '''
-        results = subprocess.run(['i2cdetect', '-y', '1'])
+        results = subprocess.run(['i2cdetect', '-y', str(i2c_bus_number)])
         # print(results)
 
         print()
@@ -121,9 +120,37 @@ class Shell(cmd.Cmd):
         ''' exit'''
         return True
 
-        
-if __name__ == '__main__':
+
+def print_options():
+    print('configuration tool requires one argument:')
+    print()
+    print(' python {} bus=0 # configure devices on i2c bus 0'.format(sys.argv[0]))
+    print(' python {} bus=1 # configure devices on i2c bus 1'.format(sys.argv[0]))
     
+    return
+    
+if __name__ == '__main__':
+    if len(sys.argv) != 2:
+        print_options()
+        exit()
+
+    i2c_bus_number = None
+    
+    arg = sys.argv[1].strip().lower()
+    key, sep, value = arg.partition('=')
+    if sep == '':
+        pass
+    elif 'bus' not in key:
+        pass
+    elif value not in ['0', '1']:
+        pass
+    else:
+        i2c_bus_number = int(value)
+
+    if i2c_bus_number is None:
+        print_options()
+        exit()
+        
     with smbus.SMBus(i2c_bus_number) as smbus:
         shell = Shell(smbus)
 
