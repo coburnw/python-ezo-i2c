@@ -19,7 +19,7 @@ class Shell(cmd.Cmd):
         self.ezo = self.ezo_attach(smbus, 0x69)
         
         self.start_addr = 0x60
-        self.end_addr = 0x6f
+        self.end_addr = 0x7f
         self.address_list = range(self.start_addr, self.end_addr+1)
         
         return
