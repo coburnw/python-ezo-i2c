@@ -80,6 +80,15 @@ class Shell(cmd.Cmd):
         
         return False
 
+    def do_led(self, arg):
+        ''' enable/disable led'''
+        if arg.lower().strip() in ['disable', 'false', 'off', '0']:
+            self.ezo.set_led(False)
+        else:
+            self.ezo.set_led(True)
+
+        return False
+    
     def do_info(self, arg):
         ''' get selected devices info'''
         print(self.ezo.get_info())

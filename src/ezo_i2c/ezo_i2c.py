@@ -75,6 +75,16 @@ class EzoI2C():
         time.sleep(0.3)
         
         return
+
+    def set_led(self, enabled):
+        if enabled:
+            response = self._write('L,1')
+        else:
+            response = self._write('L,0')
+            
+        time.sleep(0.3)
+
+        return
     
     def get_info(self):
         response = self._request('I', 0.3).split(',')
