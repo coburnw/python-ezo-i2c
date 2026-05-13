@@ -174,8 +174,8 @@ class EzoI2C():
                 self._device_id = None
                 self._firmware_version = None
             else:
-                self._device_id = info[0]
-                self._firmware_version = info[1]
+                self._device_id = info[0].strip()
+                self._firmware_version = info[1].strip()
 
         return self._device_id
 
@@ -201,7 +201,7 @@ class EzoI2C():
 
     @name.setter
     def name(self, value):
-        self._name = None        
+        self._name = None
         self.set_name(value)
         
         return
