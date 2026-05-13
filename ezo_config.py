@@ -121,6 +121,12 @@ class Shell(cmd.Cmd):
             
         return False
 
+    def do_read(self, arg):
+        ''' read sensor present value'''
+        print(self.ezo.get_reading())
+
+        return False
+    
     def do_lock(self, arg):
         ''' lock mode of selected device to i2c only'''
         pass
